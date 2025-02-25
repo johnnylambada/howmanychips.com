@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2535381193236595" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Chip Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            max-width: 900px;
+        }
+        .input-section {
+            background-color: #fff3cd;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .input-section label {
+            margin-right: 10px;
+        }
+        .input-section input {
+            margin-right: 20px;
+            width: 60px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .color-white { background-color: #fff; }
+        .color-red { background-color: #ffcccc; }
+        .color-blue { background-color: #cce5ff; }
+        .color-green { background-color: #ccffcc; }
+        .color-black { background-color: #e6e6e6; }
+        .summary {
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>♠ Poker Chip Calculator</h1>
+    <div class="input-section">
+        <h3>Game Settings</h3>
+        <label for="players">Players (2 or more):</label>
+        <input type="number" id="players" min="2" value="2">
+        <label for="buys">Buys (e.g., 1.5):</label>
+        <input type="number" id="buys" step="0.1" value="1.5">
+
+        <h3>Available Chips</h3>
+        <label>White:</label><input type="number" id="availWhite" min="0" value="250">
+        <label>Red:</label><input type="number" id="availRed" min="0" value="200">
+        <label>Blue:</label><input type="number" id="availBlue" min="0" value="150">
+        <label>Green:</label><input type="number" id="availGreen" min="0" value="99">
+        <label>Black:</label><input type="number" id="availBlack" min="0" value="99">
+
+        <h3>Chip Values</h3>
+        <label>White:</label><input type="number" id="valWhite" min="1" value="1">
+        <label>Red:</label><input type="number" id="valRed" min="1" value="5">
+        <label>Blue:</label><input type="number" id="valBlue" min="1" value="10">
+        <label>Green:</label><input type="number" id="valGreen" min="1" value="50">
+        <label>Black:</label><input type="number" id="valBlack" min="1" value="100">
+
+        <button onclick="calculateChips()">Calculate</button>
+    </div>
+
+    <h3>First Buy-in (Per Player)</h3>
+    <table id="firstTable">
+        <tr>
+            <th>Players</th>
+            <th class="color-white">White</th>
+            <th class="color-red">Red</th>
+            <th class="color-blue">Blue</th>
+            <th class="color-green">Green</th>
+            <th class="color-black">Black</th>
+            <th>Total Chips</th>
+            <th>Total Value</th>
+        </tr>
+    </table>
+
+    <h3>Last Buy-in (Per Player)</h3>
+    <table id="lastTable">
+        <tr>
+            <th>Players</th>
+            <th class="color-white">White</th>
+            <th class="color-red">Red</th>
+            <th class="color-blue">Blue</th>
+            <th class="color-green">Green</th>
+            <th class="color-black">Black</th>
+            <th>Total Chips</th>
+            <th>Total Value</th>
+        </tr>
+    </table>
+
+    <div id="totalChipsUsed" class="summary"></div>
+
+    <script>
+        function calculateChips() {
+            // Get inputs
+            const players = parseInt(document.getElementById('players').value);
+            const buys = parseFloat(document.getElementById('buys').value);
+            const avail = {
+                white: parseInt(document.getElementById('availWhite').value),
+                red: parseInt(document.getElementById('availRed').value),
+                blue: parseInt(document.getElementById('availBlue').value),
+                green: parseInt(document.getElementById('availGreen').value),
+                black: parseInt(document.getElementById('availBlack').value)
+            };
+            const values = {
+                white: parseInt(document.getElementById('valWhite').value),
+                red: parseInt(document.getElementById('valRed').value),
+                blue: parseInt(document.getElementById('valBlue').value),
+                green: parseInt(document.getElementById('valGreen').value),
+                black: parseInt(document.getElementById('valBlack').value)
+            };
+
+            // Validation
+            if (players < 2 || isNaN(players) || isNaN(buys) || buys <= 1 ||
+                Object.values(avail).some(v => isNaN(v) || v < 0) ||
+                Object.values(values).some(v => isNaN(v) || v <= 0)) {
+                alert('Please enter valid inputs: Players (2 or more), Buys (>1), Available Chips (>=0), Values (>0)');
+                return;
+            }
+
+            const fullBuys = Math.floor(buys); // e.g., 1 for 1.5 buys
+            const lastBuyFraction = buys - fullBuys; // e.g., 0.5 for 1.5 buys
+
+            // Distribute all chips for one full buy-in per player
+            const firstBuy = distributeChips(avail, values, players, buys);
+            const lastBuy = scaleChips(firstBuy, lastBuyFraction, values, players);
+
+            updateTable('firstTable', firstBuy, players);
+            updateTable('lastTable', lastBuy, players);
+
+            // Calculate and display total chips used
+            const totalChipsUsed = (firstBuy.chips * fullBuys) + lastBuy.chips;
+            document.getElementById('totalChipsUsed').textContent = `Total Chips Used: ${totalChipsUsed}`;
+        }
+
+        function distributeChips(avail, values, players, buys) {
+            let chips = { white: 0, red: 0, blue: 0, green: 0, black: 0 };
+            const colors = ['white', 'red', 'blue', 'green', 'black'];
+
+            // Allocate all chips across players and buy-ins
+            for (let color of colors) {
+                const totalChips = avail[color];
+                const chipsPerPlayerPerBuy = Math.floor(totalChips / (players * buys));
+                chips[color] = chipsPerPlayerPerBuy;
+            }
+
+            const totalChipsPerPlayer = chips.white + chips.red + chips.blue + chips.green + chips.black;
+            const totalValuePerPlayer = chips.white * values.white + chips.red * values.red +
+                                       chips.blue * values.blue + chips.green * values.green + chips.black * values.black;
+
+            // Verify chip usage
+            const totalChipsNeeded = totalChipsPerPlayer * players * buys;
+            const totalChipsAvailable = avail.white + avail.red + avail.blue + avail.green + avail.black;
+            if (totalChipsNeeded > totalChipsAvailable) {
+                alert('Error: Not enough chips to distribute across all players and buy-ins.');
+            }
+
+            return {
+                white: chips.white,
+                red: chips.red,
+                blue: chips.blue,
+                green: chips.green,
+                black: chips.black,
+                chips: totalChipsPerPlayer * players, // Total across all players
+                value: totalValuePerPlayer // Per player
+            };
+        }
+
+        function scaleChips(baseChips, fraction, values, players) {
+            const scaled = {
+                white: Math.floor(baseChips.white * fraction),
+                red: Math.floor(baseChips.red * fraction),
+                blue: Math.floor(baseChips.blue * fraction),
+                green: Math.floor(baseChips.green * fraction),
+                black: Math.floor(baseChips.black * fraction)
+            };
+            const totalChipsPerPlayer = scaled.white + scaled.red + scaled.blue + scaled.green + scaled.black;
+            const totalValuePerPlayer = scaled.white * values.white + scaled.red * values.red +
+                                       scaled.blue * values.blue + scaled.green * values.green + scaled.black * values.black;
+
+            return {
+                white: scaled.white,
+                red: scaled.red,
+                blue: scaled.blue,
+                green: scaled.green,
+                black: scaled.black,
+                chips: totalChipsPerPlayer * players, // Total across all players
+                value: totalValuePerPlayer // Per player
+            };
+        }
+
+        function updateTable(tableId, data, players) {
+            const table = document.getElementById(tableId);
+            while (table.rows.length > 1) table.deleteRow(1);
+
+            const row = table.insertRow();
+            row.insertCell().textContent = players;
+            row.insertCell().textContent = data.white;
+            row.insertCell().textContent = data.red;
+            row.insertCell().textContent = data.blue;
+            row.insertCell().textContent = data.green;
+            row.insertCell().textContent = data.black;
+            row.insertCell().textContent = data.chips;
+            row.insertCell().textContent = `$${data.value.toLocaleString()}`; // Format as dollar amount
+        }
+
+        // Initial calculation
+        calculateChips();
+    </script>
+</body>
+</html>
