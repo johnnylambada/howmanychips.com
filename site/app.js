@@ -6,8 +6,6 @@ class Chip {
   }
 }
 
-let chipTypes = [new Chip("white", 1, 0)]; // Start with one chip type
-
 // Cookie handling functions
 function setCookie(name, value, days) {
   const expires = new Date();
@@ -164,7 +162,7 @@ function distributeChips(players, buys) {
 
   return {
       ...chips,
-      chips: totalChipsPerPlayer * soldiers,
+      chips: totalChipsPerPlayer * players,
       value: totalValuePerPlayer
   };
 }
@@ -197,6 +195,3 @@ function updateTable(tableId, data, players) {
   row.insertCell().textContent = data.chips;
   row.insertCell().textContent = `$${data.value.toLocaleString()}`;
 }
-
-// Load state from cookie on page load
-loadStateFromCookie();
