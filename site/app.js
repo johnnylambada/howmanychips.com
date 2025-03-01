@@ -1,3 +1,4 @@
+// site/app.js
 class Chip {
   constructor(name, value, available) {
       this.name = name;
@@ -26,7 +27,7 @@ function loadStateFromCookie() {
       const parsed = JSON.parse(state);
       document.getElementById('players').value = parsed.players;
       document.getElementById('buys').value = parsed.buys;
-      chipTypes = parsed.chipTypes.map(c => new Chip(c.name, c.value, c.available));
+      window.chipTypes = parsed.chipTypes.map(c => new Chip(c.name, c.value, c.available));
       renderChipTypes();
       calculateChips();
   } else {
@@ -39,20 +40,20 @@ function saveStateToCookie() {
   const state = {
       players: parseInt(document.getElementById('players').value),
       buys: parseFloat(document.getElementById('buys').value),
-      chipTypes: chipTypes.map(chip => ({
+      chipTypes: window.chipTypes.map(chip => ({
           name: chip.name,
           value: chip.value,
           available: chip.available
       }))
   };
-  setCookie('pokerChipState', JSON.stringify(state), 30); // Expires in 30 days
+  setCookie('pokerChipState', JSON.stringify(state), 30);
 }
 
 function renderChipTypes() {
   const container = document.getElementById('chip-types-container');
   container.innerHTML = '';
 
-  chipTypes.forEach((chip, index) => {
+  window.chipTypes.forEach((chip, index) => {
       const row = document.createElement('div');
       row.className = 'chip-row';
       row.innerHTML = `
@@ -62,7 +63,7 @@ function renderChipTypes() {
           <input type="number" min="1" value="${chip.value}" onchange="updateChipValue(${index}, this.value)">
           <label>Available:</label>
           <input type="number" min="0" value="${chip.available}" onchange="updateChipAvailable(${index}, this.value)">
-          ${chipTypes.length > 1 ? `<button class="remove-btn" onclick="removeChipType(${index})">Remove</button>` : ''}
+          ${window.chipTypes.length > 1 ? `<button class="remove-btn" onclick="removeChipType(${index})">Remove</button>` : ''}
       `;
       container.appendChild(row);
   });
@@ -71,30 +72,30 @@ function renderChipTypes() {
 }
 
 function addChipType() {
-  chipTypes.push(new Chip(`chip${chipTypes.length + 1}`, 1, 0));
+  window.chipTypes.push(new Chip(`chip${window.chipTypes.length + 1}`, 1, 0));
   renderChipTypes();
 }
 
 function removeChipType(index) {
-  chipTypes.splice(index, 1);
+  window.chipTypes.splice(index, 1);
   renderChipTypes();
 }
 
 function updateChipName(index, name) {
-  chipTypes[index].name = name;
+  window.chipTypes[index].name = name;
   updateTableHeaders();
 }
 
 function updateChipValue(index, value) {
-  chipTypes[index].value = parseInt(value) || 1;
+  window.chipTypes[index].value = parseInt(value) || 1;
 }
 
 function updateChipAvailable(index, available) {
-  chipTypes[index].available = parseInt(available) || 0;
+  window.chipTypes[index].available = parseInt(available) || 0;
 }
 
 function setStandardChips() {
-  chipTypes = [
+  window.chipTypes = [
       new Chip("white", 1, 250),
       new Chip("red", 5, 200),
       new Chip("blue", 10, 150),
@@ -111,7 +112,7 @@ function updateTableHeaders() {
   firstHeader.innerHTML = '<th>Players</th>';
   lastHeader.innerHTML = '<th>Players</th>';
 
-  chipTypes.forEach(chip => {
+  window.chipTypes.forEach(chip => {
       firstHeader.innerHTML += `<th>${chip.name}</th>`;
       lastHeader.innerHTML += `<th>${chip.name}</th>`;
   });
@@ -125,7 +126,7 @@ function calculateChips() {
   const buys = parseFloat(document.getElementById('buys').value);
 
   if (players < 2 || isNaN(players) || isNaN(buys) || buys <= 1 ||
-      chipTypes.some(chip => isNaN(chip.available) || chip.available < 0 || isNaN(chip.value) || chip.value <= 0)) {
+      window.chipTypes.some(chip => isNaN(chip.available) || chip.available < 0 || isNaN(chip.value) || chip.value <= 0)) {
       alert('Please enter valid inputs: Players (2 or more), Buys (>1), Available Chips (>=0), Values (>0)');
       return;
   }
@@ -142,20 +143,20 @@ function calculateChips() {
   const totalChipsUsed = (firstBuy.chips * fullBuys) + lastBuy.chips;
   document.getElementById('totalChipsUsed').textContent = `Total Chips Used: ${totalChipsUsed}`;
 
-  saveStateToCookie(); // Save state after successful calculation
+  saveStateToCookie();
 }
 
 function distributeChips(players, buys) {
   const chips = {};
-  chipTypes.forEach(chip => {
+  window.chipTypes.forEach(chip => {
       chips[chip.name] = Math.floor(chip.available / (players * buys));
   });
 
   const totalChipsPerPlayer = Object.values(chips).reduce((sum, count) => sum + count, 0);
-  const totalValuePerPlayer = chipTypes.reduce((sum, chip) => sum + (chips[chip.name] * chip.value), 0);
+  const totalValuePerPlayer = window.chipTypes.reduce((sum, chip) => sum + (chips[chip.name] * chip.value), 0);
 
   const totalChipsNeeded = totalChipsPerPlayer * players * buys;
-  const totalChipsAvailable = chipTypes.reduce((sum, chip) => sum + chip.available, 0);
+  const totalChipsAvailable = window.chipTypes.reduce((sum, chip) => sum + chip.available, 0);
   if (totalChipsNeeded > totalChipsAvailable) {
       alert('Error: Not enough chips to distribute across all players and buy-ins.');
   }
@@ -169,12 +170,12 @@ function distributeChips(players, buys) {
 
 function scaleChips(baseChips, fraction, players) {
   const scaled = {};
-  chipTypes.forEach(chip => {
+  window.chipTypes.forEach(chip => {
       scaled[chip.name] = Math.floor(baseChips[chip.name] * fraction);
   });
 
   const totalChipsPerPlayer = Object.values(scaled).reduce((sum, count) => sum + count, 0);
-  const totalValuePerPlayer = chipTypes.reduce((sum, chip) => sum + (scaled[chip.name] * chip.value), 0);
+  const totalValuePerPlayer = window.chipTypes.reduce((sum, chip) => sum + (scaled[chip.name] * chip.value), 0);
 
   return {
       ...scaled,
@@ -189,9 +190,29 @@ function updateTable(tableId, data, players) {
 
   const row = table.insertRow();
   row.insertCell().textContent = players;
-  chipTypes.forEach(chip => {
+  window.chipTypes.forEach(chip => {
       row.insertCell().textContent = data[chip.name];
   });
   row.insertCell().textContent = data.chips;
   row.insertCell().textContent = `$${data.value.toLocaleString()}`;
 }
+
+module.exports = {
+  Chip,
+  setCookie,
+  getCookie,
+  loadStateFromCookie,
+  saveStateToCookie,
+  renderChipTypes,
+  addChipType,
+  removeChipType,
+  updateChipName,
+  updateChipValue,
+  updateChipAvailable,
+  setStandardChips,
+  updateTableHeaders,
+  calculateChips,
+  distributeChips,
+  scaleChips,
+  updateTable
+};
