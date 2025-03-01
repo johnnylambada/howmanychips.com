@@ -1,0 +1,4 @@
+[build]
+  base = "site/"
+  publish = "site/"
+  command = "npm ci && npm test && echo 'Tests passed'"
