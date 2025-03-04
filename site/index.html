@@ -88,8 +88,8 @@
 
         <h3>Chip Types</h3>
         <div id="chip-types-container"></div>
-        <button onclick="addChipType()">Add Chip Type</button>
-        <button class="standard-btn" onclick="setStandardChips()">Standard</button>
+        <button onclick="handleAddChipType()">Add Chip Type</button>
+        <button class="standard-btn" onclick="handleSetStandardChips()">Standard</button>
 
         <button onclick="handleCalculateChips()" style="margin-top: 10px;">Calculate</button>
     </div>
@@ -143,12 +143,12 @@
                 row.className = 'chip-row';
                 row.innerHTML = `
                     <label>Name:</label>
-                    <input type="text" value="${chip.name}" onchange="updateChipName(${index}, this.value)">
+                    <input type="text" value="${chip.name}" onchange="handleUpdateChipName(${index}, this.value)">
                     <label>Value:</label>
-                    <input type="number" min="1" value="${chip.value}" onchange="updateChipValue(${index}, this.value)">
+                    <input type="number" min="1" value="${chip.value}" onchange="handleUpdateChipValue(${index}, this.value)">
                     <label>Available:</label>
-                    <input type="number" min="0" value="${chip.available}" onchange="updateChipAvailable(${index}, this.value)">
-                    ${chipTypes.length > 1 ? `<button class="remove-btn" onclick="removeChipType(${index})">Remove</button>` : ''}
+                    <input type="number" min="0" value="${chip.available}" onchange="handleUpdateChipAvailable(${index}, this.value)">
+                    ${chipTypes.length > 1 ? `<button class="remove-btn" onclick="handleRemoveChipType(${index})">Remove</button>` : ''}
                 `;
                 container.appendChild(row);
             });
@@ -196,30 +196,30 @@
             setCookie('pokerChipState', JSON.stringify({ players, buys, chipTypes }), 30);
         }
 
-        function addChipType() {
+        function handleAddChipType() {
             chipTypes = addChipType(chipTypes);
             renderChipTypes();
         }
 
-        function removeChipType(index) {
+        function handleRemoveChipType(index) {
             chipTypes = removeChipType(chipTypes, index);
             renderChipTypes();
         }
 
-        function updateChipName(index, name) {
+        function handleUpdateChipName(index, name) {
             chipTypes = updateChipName(chipTypes, index, name);
             renderChipTypes();
         }
 
-        function updateChipValue(index, value) {
+        function handleUpdateChipValue(index, value) {
             chipTypes = updateChipValue(chipTypes, index, value);
         }
 
-        function updateChipAvailable(index, available) {
+        function handleUpdateChipAvailable(index, available) {
             chipTypes = updateChipAvailable(chipTypes, index, available);
         }
 
-        function setStandardChips() {
+        function handleSetStandardChips() {
             chipTypes = setStandardChips();
             renderChipTypes();
             handleCalculateChips();
