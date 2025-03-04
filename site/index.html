@@ -91,7 +91,7 @@
         <button onclick="addChipType()">Add Chip Type</button>
         <button class="standard-btn" onclick="setStandardChips()">Standard</button>
 
-        <button onclick="calculateChips()" style="margin-top: 10px;">Calculate</button>
+        <button onclick="handleCalculateChips()" style="margin-top: 10px;">Calculate</button>
     </div>
 
     <div class="ad-section">
@@ -120,8 +120,114 @@
 
     <script src="app.js"></script>
     <script>
-        let chipTypes = [new Chip("white", 1, 0)]; // Initial chip types
-        loadStateFromCookie(); // Load state on page load
+        let chipTypes = [new Chip("white", 1, 0)];
+
+        function renderChipTypes() {
+            const container = document.getElementById('chip-types-container');
+            container.innerHTML = '';
+            chipTypes.forEach((chip, index) => {
+                const row = document.createElement('div');
+                row.className = 'chip-row';
+                row.innerHTML = `
+                    <label>Name:</label>
+                    <input type="text" value="${chip.name}" onchange="updateChipName(${index}, this.value)">
+                    <label>Value:</label>
+                    <input type="number" min="1" value="${chip.value}" onchange="updateChipValue(${index}, this.value)">
+                    <label>Available:</label>
+                    <input type="number" min="0" value="${chip.available}" onchange="updateChipAvailable(${index}, this.value)">
+                    ${chipTypes.length > 1 ? `<button class="remove-btn" onclick="removeChipType(${index})">Remove</button>` : ''}
+                `;
+                container.appendChild(row);
+            });
+            updateTableHeaders();
+        }
+
+        function updateTableHeaders() {
+            const firstHeader = document.getElementById('firstTableHeader');
+            const lastHeader = document.getElementById('lastTableHeader');
+            firstHeader.innerHTML = '<th>Players</th>';
+            lastHeader.innerHTML = '<th>Players</th>';
+            chipTypes.forEach(chip => {
+                firstHeader.innerHTML += `<th>${chip.name}</th>`;
+                lastHeader.innerHTML += `<th>${chip.name}</th>`;
+            });
+            firstHeader.innerHTML += '<th>Total Chips</th><th>Total Value</th>';
+            lastHeader.innerHTML += '<th>Total Chips</th><th>Total Value</th>';
+        }
+
+        function updateTable(tableId, data, players) {
+            const table = document.getElementById(tableId);
+            while (table.rows.length > 1) table.deleteRow(1);
+            const row = table.insertRow();
+            row.insertCell().textContent = players;
+            chipTypes.forEach(chip => {
+                row.insertCell().textContent = data.chipsData[chip.name];
+            });
+            row.insertCell().textContent = data.totalChips;
+            row.insertCell().textContent = `$${data.totalValue.toLocaleString()}`;
+        }
+
+        function handleCalculateChips() {
+            const players = parseInt(document.getElementById('players').value);
+            const buys = parseFloat(document.getElementById('buys').value);
+            const result = calculateChips(players, buys, chipTypes);
+
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
+
+            updateTable('firstTable', result.firstBuy, players);
+            updateTable('lastTable', result.lastBuy, players);
+            document.getElementById('totalChipsUsed').textContent = `Total Chips Used: ${result.totalChipsUsed}`;
+            setCookie('pokerChipState', JSON.stringify({ players, buys, chipTypes }), 30);
+        }
+
+        function addChipType() {
+            chipTypes = addChipType(chipTypes);
+            renderChipTypes();
+        }
+
+        function removeChipType(index) {
+            chipTypes = removeChipType(chipTypes, index);
+            renderChipTypes();
+        }
+
+        function updateChipName(index, name) {
+            chipTypes = updateChipName(chipTypes, index, name);
+            renderChipTypes();
+        }
+
+        function updateChipValue(index, value) {
+            chipTypes = updateChipValue(chipTypes, index, value);
+        }
+
+        function updateChipAvailable(index, available) {
+            chipTypes = updateChipAvailable(chipTypes, index, available);
+        }
+
+        function setStandardChips() {
+            chipTypes = setStandardChips();
+            renderChipTypes();
+            handleCalculateChips(); // Call renamed function
+        }
+
+        function loadStateFromCookie() {
+            const state = getCookie('pokerChipState');
+            if (state) {
+                const parsed = JSON.parse(state);
+                document.getElementById('players').value = parsed.players;
+                document.getElementById('buys').value = parsed.buys;
+                chipTypes = parsed.chipTypes.map(c => new Chip(c.name, c.value, c.available));
+                renderChipTypes();
+                handleCalculateChips(); // Call renamed function
+            } else {
+                renderChipTypes();
+                handleCalculateChips(); // Call renamed function
+            }
+        }
+
+        loadStateFromCookie();
     </script>
 </body>
 </html>
