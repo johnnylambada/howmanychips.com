@@ -7,21 +7,6 @@ class Chip {
   }
 }
 
-// Cookie handling (still needs document.cookie, but we'll isolate it)
-function setCookie(name, value, days) {
-  const expires = new Date();
-  expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
-  document.cookie = `${name}=${encodeURIComponent(value)};expires=${expires.toUTCString()};path=/`;
-}
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return decodeURIComponent(parts.pop().split(';').shift());
-  return null;
-}
-
-// Pure functions
 function distributeChips(players, buys, chipTypes) {
   const chips = {};
   chipTypes.forEach(chip => {
@@ -117,8 +102,6 @@ function setStandardChips() {
 
 module.exports = {
   Chip,
-  setCookie,
-  getCookie,
   distributeChips,
   scaleChips,
   calculateChips,
