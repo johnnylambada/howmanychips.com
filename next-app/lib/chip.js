@@ -1,16 +1,15 @@
-// site/app.js
 class Chip {
   constructor(name, value, available) {
-      this.name = name;
-      this.value = value;
-      this.available = available;
+    this.name = name;
+    this.value = value;
+    this.available = available;
   }
 }
 
 function distributeChips(players, buys, chipTypes) {
   const chips = {};
   chipTypes.forEach(chip => {
-      chips[chip.name] = Math.floor(chip.available / (players * buys));
+    chips[chip.name] = Math.floor(chip.available / (players * buys));
   });
 
   const totalChipsPerPlayer = Object.values(chips).reduce((sum, count) => sum + count, 0);
@@ -20,33 +19,33 @@ function distributeChips(players, buys, chipTypes) {
   const totalChipsAvailable = chipTypes.reduce((sum, chip) => sum + chip.available, 0);
   
   return {
-      chipsData: chips,
-      totalChips: totalChipsPerPlayer * players,
-      totalValue: totalValuePerPlayer,
-      isValid: totalChipsNeeded <= totalChipsAvailable
+    chipsData: chips,
+    totalChips: totalChipsPerPlayer * players,
+    totalValue: totalValuePerPlayer,
+    isValid: totalChipsNeeded <= totalChipsAvailable
   };
 }
 
 function scaleChips(firstBuy, fraction, players, chipTypes) {
   const scaled = {};
   chipTypes.forEach(chip => {
-      scaled[chip.name] = Math.floor(firstBuy.chipsData[chip.name] * fraction);
+    scaled[chip.name] = Math.floor(firstBuy.chipsData[chip.name] * fraction);
   });
 
   const totalChipsPerPlayer = Object.values(scaled).reduce((sum, count) => sum + count, 0);
   const totalValuePerPlayer = chipTypes.reduce((sum, chip) => sum + (scaled[chip.name] * chip.value), 0);
 
   return {
-      chipsData: scaled,
-      totalChips: totalChipsPerPlayer * players,
-      totalValue: totalValuePerPlayer
+    chipsData: scaled,
+    totalChips: totalChipsPerPlayer * players,
+    totalValue: totalValuePerPlayer
   };
 }
 
 function calculateChips(players, buys, chipTypes) {
   if (players < 2 || isNaN(players) || isNaN(buys) || buys <= 1 ||
-      chipTypes.some(chip => isNaN(chip.available) || chip.available < 0 || isNaN(chip.value) || chip.value <= 0)) {
-      return { error: 'Invalid inputs: Players (2 or more), Buys (>1), Available Chips (>=0), Values (>0)' };
+    chipTypes.some(chip => isNaN(chip.available) || chip.available < 0 || isNaN(chip.value) || chip.value <= 0)) {
+    return { error: 'Invalid inputs: Players (2 or more), Buys (>1), Available Chips (>=0), Values (>0)' };
   }
 
   const fullBuys = Math.floor(buys);
@@ -54,7 +53,7 @@ function calculateChips(players, buys, chipTypes) {
 
   const firstBuy = distributeChips(players, buys, chipTypes);
   if (!firstBuy.isValid) {
-      return { error: 'Not enough chips to distribute across all players and buy-ins' };
+    return { error: 'Not enough chips to distribute across all players and buy-ins' };
   }
 
   const lastBuy = scaleChips(firstBuy, lastBuyFraction, players, chipTypes);
@@ -92,15 +91,15 @@ function updateChipAvailable(chipTypes, index, available) {
 
 function setStandardChips() {
   return [
-      new Chip("white", 1, 250),
-      new Chip("red", 5, 200),
-      new Chip("blue", 10, 150),
-      new Chip("green", 50, 99),
-      new Chip("black", 100, 99)
+    new Chip("white", 1, 250),
+    new Chip("red", 5, 200),
+    new Chip("blue", 10, 150),
+    new Chip("green", 50, 99),
+    new Chip("black", 100, 99)
   ];
 }
 
-module.exports = {
+export {
   Chip,
   distributeChips,
   scaleChips,

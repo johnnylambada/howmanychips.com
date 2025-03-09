@@ -1,5 +1,5 @@
-// tests/app.test.js
-const { Chip, distributeChips, scaleChips, calculateChips, setStandardChips, addChipType, removeChipType, updateChipName, updateChipValue, updateChipAvailable } = require('../site/app.js');
+// __tests__/chip.test.js
+import { Chip, distributeChips, scaleChips, calculateChips, setStandardChips, addChipType, removeChipType, updateChipName, updateChipValue, updateChipAvailable } from '../lib/chip';
 
 describe('Chip Class', () => {
   test('constructs with correct properties', () => {

@@ -1,6 +1,6 @@
 # How Many Chips
 
-A Next.js website for calculating poker chip distributions for home games, deployed to Netlify.
+A Next.js website for calculating poker chip distributions for home games.
 
 ## Features
 
@@ -16,10 +16,9 @@ This is a [Next.js](https://nextjs.org/) project.
 
 ### Getting Started
 
-First, navigate to the Next.js app directory and install dependencies:
+First, install dependencies:
 
 ```bash
-cd next-app
 npm install
 ```
 
@@ -45,7 +44,7 @@ To deploy:
 
 1. Push your code to GitHub
 2. Connect your repository to Netlify
-3. Netlify will automatically build and deploy the site from the `next-app` directory
+3. Netlify will automatically build and deploy the site
 
 ## License
 
