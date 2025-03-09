@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -14,7 +13,7 @@ export default function Header() {
       <div className="header-content">
         <div className="logo">
           <div className="logo-img">
-            <Image src="/poker-chips.svg" alt="Poker Chips" width={30} height={30} />
+            <img src="/poker-chips.svg" alt="Poker Chips" width={30} height={30} />
           </div>
           <h1>HowManyChips.com</h1>
         </div>

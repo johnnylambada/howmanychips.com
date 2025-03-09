@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -18,7 +17,7 @@ export default function Footer() {
           </span>
         </p>
         <div className="footer-logo">
-          <Image src="/poker-chips.svg" alt="Poker Chips" width={25} height={25} />
+          <img src="/poker-chips.svg" alt="Poker Chips" width={25} height={25} />
         </div>
       </div>
     </footer>
