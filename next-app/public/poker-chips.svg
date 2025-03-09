@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Red chip -->
+  <ellipse cx="256" cy="352" rx="192" ry="64" fill="#D32F2F"/>
+  <ellipse cx="256" cy="352" rx="160" ry="48" fill="#B71C1C"/>
+  <ellipse cx="256" cy="352" rx="128" ry="32" fill="#D32F2F"/>
+  
+  <!-- Black chip -->
+  <ellipse cx="256" cy="256" rx="192" ry="64" fill="#212121"/>
+  <ellipse cx="256" cy="256" rx="160" ry="48" fill="#000000"/>
+  <ellipse cx="256" cy="256" rx="128" ry="32" fill="#212121"/>
+  
+  <!-- White chip -->
+  <ellipse cx="256" cy="160" rx="192" ry="64" fill="#FFFFFF"/>
+  <ellipse cx="256" cy="160" rx="160" ry="48" fill="#EEEEEE"/>
+  <ellipse cx="256" cy="160" rx="128" ry="32" fill="#FFFFFF"/>
+  
+  <!-- Blue chip -->
+  <ellipse cx="256" cy="96" rx="192" ry="64" fill="#1565C0"/>
+  <ellipse cx="256" cy="96" rx="160" ry="48" fill="#0D47A1"/>
+  <ellipse cx="256" cy="96" rx="128" ry="32" fill="#1565C0"/>
+</svg>

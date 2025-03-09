@@ -1,0 +1,112 @@
+General App Design for "howmanychips.com"
+Overall Aesthetic
+Theme: Poker-inspired with a subtle green felt background, evoking a casino table vibe, paired with a clean, modern layout.
+Motif: Poker elements (chips, cards) used sparingly as accents to reinforce the brand without overwhelming functionality.
+Tone: Professional yet approachable—practical tools for poker players with a hint of fun.
+Layout Structure
+1. Header (Fixed, Global Component)
+Height: 80px (fixed position, stays at the top when scrolling).
+Background: Dark gray (#424242) to contrast the felt body.
+Content:
+Left: Logo ("HowManyChips.com") in white, bold Roboto font, 24px size.
+Accent: Small poker chip stack icon (red/white/black, ~30px) to the left of the text, animated with a slight bounce on page load (using CSS or Framer Motion).
+Right: Navigation menu in white, 16px Roboto font.
+Links: "Home | Chip Calculator | Tournament Tools | About | Tips" (dynamic based on pages you add).
+Hover Effect: Links turn red (#D32F2F) with a 0.3s transition.
+Mobile: Collapses into a hamburger menu (white icon, 30px) at <768px, opening a full-screen dark gray dropdown with vertical links.
+Border: Thin bottom line in green (#2E7D32) for a poker table edge feel.
+Next.js Implementation: Create a <Header /> component in components/Header.js, styled with CSS modules or Tailwind CSS.
+2. Main Content Area (Flexible, Page-Specific Container)
+Background: Light gray (#F5F5F5) base with a subtle green felt texture (opacity 10%) applied via a CSS background image.
+Texture: Use a repeating green felt pattern (e.g., sourced from a free stock site like Unsplash or created as a 100x100px tile in PNG).
+Example CSS: background: url('/felt-texture.png') repeat, #F5F5F5;
+Layout: Two-column design on desktop (>768px), single-column on mobile.
+Left Column (70% width, ~840px at 1200px screen):
+Holds the main content (e.g., calculators, forms, results).
+Wrapped in a white card (#FFFFFF) with 10px padding, 2px gray border (#E0E0E0), and slight shadow (box-shadow: 0 2px 4px rgba(0,0,0,0.1)).
+Max-width: 90% on mobile, centered.
+Right Column (30% width, ~360px at 1200px screen):
+Sidebar for ads and supplementary info.
+Stacks below main content on mobile (<768px).
+Spacing:
+20px margin between header and content.
+20px padding around the container edges.
+Next.js Implementation: Use a <Layout /> component in components/Layout.js with a <main> tag for page content and a <Sidebar /> component for the right column.
+3. Footer (Global Component)
+Height: 80px.
+Background: Dark gray (#424242), matching the header.
+Content:
+Centered white text, 14px Roboto: "© 2025 HowManyChips.com | Home | Chip Calculator | Tournament Tools | About | Tips."
+Accent: Small poker chip stack icon (same as header) on the right, static.
+Mobile: Text wraps to two lines if needed, icon stays right-aligned.
+Next.js Implementation: Create a <Footer /> component in components/Footer.js.
+Color Palette
+Primary: Green (#2E7D32) – Buttons, accents, poker table vibe.
+Secondary: Red (#D32F2F) – Hover effects, secondary actions, chip-inspired.
+Background: Light Gray (#F5F5F5) + green felt texture – Main body.
+Dark Accent: Dark Gray (#424242) – Header/footer.
+Content: White (#FFFFFF) – Cards and main content areas.
+Text: Black (#212121) for body, white (#FFFFFF) for header/footer.
+Typography
+Font: Roboto (via Google Fonts) – Clean, modern, widely supported.
+Headings: 28px bold for page titles, 20px bold for section headers.
+Body: 16px regular for labels, 14px regular for results/tables.
+Links: 16px regular, underlined on hover.
+Next.js Implementation: Import in _app.js or via CSS: @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');.
+Poker Motif Elements
+Icons:
+Poker chips (red/white/black stack) in header and footer.
+Optional: Card suits (spades, hearts) as subtle bullet points or button icons.
+Source: FontAwesome (fa-coins, fa-heart) or custom SVGs.
+Animations:
+Chip stack in header bounces once on load (e.g., keyframes in CSS or Framer Motion).
+Buttons scale slightly on hover (e.g., transform: scale(1.05)).
+Borders: Thin green lines (#2E7D32) mimic table edges (header bottom, card outlines).
+Next.js Implementation: Store icons in public/icons/ and use in components via <Image /> or inline SVG.
+Interactive Elements
+Buttons:
+Primary: Green (#2E7D32), white text, 200px wide, 40px tall, 5px rounded corners.
+Hover: Darker green (#1B5E20).
+Secondary: Red outline (#D32F2F), transparent fill, red text.
+Hover: Red fill, white text.
+Forms:
+Inputs: White background, 2px gray border (#E0E0E0), 200px wide, 40px tall.
+Labels: Black, 16px Roboto, 5px above inputs.
+Dropdowns: Same style as inputs, with a small down arrow.
+Tables:
+White background, gray borders (#E0E0E0), 14px Roboto text.
+Headers: Bold, slightly darker background (#F0F0F0).
+Next.js Implementation: Style with Tailwind CSS (e.g., bg-green-700 hover:bg-green-800) or CSS modules.
+AdSense Integration
+Sidebar:
+Desktop: 300x600px skyscraper ad in the right column, labeled "Advertisement" in a gray placeholder until approved.
+Mobile: Switches to 300x250px banner below main content.
+Placement: Avoid clutter—keep ads in the sidebar or below results, not between inputs and outputs.
+Next.js Implementation: Use a <AdSlot /> component with conditional rendering based on screen size (via useMediaQuery or CSS).
+Responsiveness
+Breakpoints:
+Desktop (>768px): Two-column layout, full header.
+Mobile (<768px): Single-column, stacked content, hamburger menu.
+Adjustments:
+Main content cards: 90% width on mobile, centered.
+Sidebar: Moves below main content, ad resizes.
+Text: Reduces slightly (e.g., titles 24px, body 14px) for readability.
+Next.js Implementation: Use CSS media queries or Tailwind’s responsive classes (e.g., md:flex-row flex-col).
+Technical Notes for Next.js
+File Structure:
+components/Header.js, Footer.js, Layout.js, Sidebar.js for reusable parts.
+pages/_app.js: Global styles and font import.
+public/felt-texture.png: Background texture.
+Styling:
+Tailwind CSS (recommended): Add to Next.js via npm install -D tailwindcss postcss autoprefixer, then configure in tailwind.config.js.
+CSS Modules: Alternative, scope styles to components (e.g., Header.module.css).
+Assets: Store poker chip SVGs/icons in public/icons/.
+Performance: Use Next.js <Image /> for optimized loading of the felt texture and icons.
+Visual Summary
+Imagine loading "howmanychips.com":
+
+A dark gray header with a bouncing poker chip logo and clean nav links.
+A light gray body with a faint green felt texture, holding a crisp white card for content on the left and a sidebar with an ad on the right.
+Buttons pop in green, accented by red hover effects, with subtle chip icons tying it together.
+A matching dark gray footer anchors the page, echoing the poker motif.
+On mobile, it stacks neatly, keeping the felt vibe intact.
