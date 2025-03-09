@@ -23,6 +23,10 @@ export default function Home() {
           <Link href="/blind-structure" legacyBehavior>
             <a><button>Blind Structure</button></a>
           </Link>
+          {' '}
+          <Link href="/payout-calculator" legacyBehavior>
+            <a><button>Payout Calculator</button></a>
+          </Link>
         </div>
       </div>
       
