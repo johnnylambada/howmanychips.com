@@ -16,13 +16,13 @@ export default function Layout({ children, title = 'Poker Chip Calculator', desc
       <Header />
 
       <div className="page-content">
-        <div className="container">
-          <div className="main-content">
+        <div className="centered-container">
+          <main>
             <div className="content-area">
               {children}
             </div>
             <Sidebar />
-          </div>
+          </main>
         </div>
       </div>
 
