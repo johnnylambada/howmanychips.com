@@ -26,9 +26,9 @@ export default function Layout({ children, title = 'Poker Chip Calculator', desc
         <div className="container">
           <p>&copy; {new Date().getFullYear()} How Many Chips. All rights reserved.</p>
           <nav>
-            <Link href="/">Home</Link> | 
-            <Link href="/calculator"> Chip Calculator</Link> | 
-            <Link href="/about"> About</Link>
+            <Link href="/" legacyBehavior><a>Home</a></Link> {' | '}
+            <Link href="/calculator" legacyBehavior><a>Chip Calculator</a></Link> {' | '}
+            <Link href="/about" legacyBehavior><a>About</a></Link>
           </nav>
         </div>
       </footer>

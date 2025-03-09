@@ -16,8 +16,8 @@ export default function Home() {
         </p>
         
         <div className="button-group" style={{ marginTop: '20px' }}>
-          <Link href="/calculator">
-            <button>Go to Calculator</button>
+          <Link href="/calculator" legacyBehavior>
+            <a><button>Go to Calculator</button></a>
           </Link>
         </div>
       </div>
