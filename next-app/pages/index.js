@@ -17,7 +17,11 @@ export default function Home() {
         
         <div className="button-group" style={{ marginTop: '20px' }}>
           <Link href="/calculator" legacyBehavior>
-            <a><button>Go to Calculator</button></a>
+            <a><button>Chip Calculator</button></a>
+          </Link>
+          {' '}
+          <Link href="/blind-structure" legacyBehavior>
+            <a><button>Blind Structure</button></a>
           </Link>
         </div>
       </div>
