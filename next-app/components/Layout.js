@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Header from './Header';
 import Footer from './Footer';
-import Sidebar from './Sidebar';
 
 export default function Layout({ children, title = 'Poker Chip Calculator', description = 'Plan your poker game with ease—calculate chip distributions for any number of players and buy-ins!' }) {
   return (
@@ -20,8 +19,7 @@ export default function Layout({ children, title = 'Poker Chip Calculator', desc
           <main>
             <div className="content-area">
               {children}
-            </div>
-            <Sidebar />
+            </div>           
           </main>
         </div>
       </div>
