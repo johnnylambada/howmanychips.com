@@ -1,6 +1,15 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
+
+function closeMobileMenu() {
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenu && mobileMenu.classList.contains('show')) {
+    const bsCollapse = new bootstrap.Collapse(mobileMenu);
+    bsCollapse.hide();
+  }
+}
+
 export default function Header() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark w-100">
@@ -41,11 +50,11 @@ export default function Header() {
         </div>
         <div className="collapse mobile-menu" id="mobileMenu">
           <div className="navbar-nav w-100 flex-column">
-            <Link href="/" legacyBehavior><a className="nav-link">Home</a></Link>
-            <Link href="/calculator" legacyBehavior><a className="nav-link">Chip Calculator</a></Link>
-            <Link href="/blind-structure" legacyBehavior><a className="nav-link">Blind Structure</a></Link>
-            <Link href="/payout-calculator" legacyBehavior><a className="nav-link">Payout Calculator</a></Link>
-            <Link href="/about" legacyBehavior><a className="nav-link">About</a></Link>
+            <Link href="/" legacyBehavior><a className="nav-link" onClick={closeMobileMenu}>Home</a></Link>
+            <Link href="/calculator" legacyBehavior><a className="nav-link" onClick={closeMobileMenu}>Chip Calculator</a></Link>
+            <Link href="/blind-structure" legacyBehavior><a className="nav-link" onClick={closeMobileMenu}>Blind Structure</a></Link>
+            <Link href="/payout-calculator" legacyBehavior><a className="nav-link" onClick={closeMobileMenu}>Payout Calculator</a></Link>
+            <Link href="/about" legacyBehavior><a className="nav-link" onClick={closeMobileMenu}>About</a></Link>
           </div>
         </div>
       </div>
