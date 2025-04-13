@@ -2,11 +2,10 @@
 
 :root {
   /* Color Palette */
-  --primary-color: #2E7D32; /* Green - Buttons, accents */
-  --primary-dark: #1B5E20; /* Darker green for hover */
+  --primary-color: #424242; /* Buttons, accents */
   --secondary-color: #D32F2F; /* Red - Hover effects, secondary actions */
   --background-color: #F5F5F5; /* Light Gray + felt texture */
-  --dark-accent: #424242; /* Dark Gray - Header/footer */
+  --dark-accent: #424242; /* Dark Gray */
   --content-color: #FFFFFF; /* White - Cards and content areas */
   --text-color: #212121; /* Black - Body text */
   --light-border: #E0E0E0; /* Light gray for borders */
@@ -76,6 +75,35 @@ main {
   flex: 1;
 }
 
+/* Content Container - Pure Green */
+.content-container {
+  background-color: #00FF00; /* Pure Green */
+}
+
+/* Article Styles */
+.article-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  max-width: 100%; /* Allow container to shrink */
+  margin: 0 1em; /*margin on either side of container*/
+}
+
+@media (min-width: 768px) {
+  .article-container {
+    max-width: 800px; /* Fixed width on desktop */
+  }
+}
+article {
+  background-color: white;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 1em;
+}
+
+
+
 .sidebar {
   flex: 0 0 340px;
   min-width: 340px;
@@ -83,10 +111,10 @@ main {
   visibility: visible !important;
 }
 
-/* Header Styles */
+/* Header Styles - Modified to be Pure Red */
 header {
-  background-color: var(--dark-accent);
-  color: white;
+  background-color: #FF0000; /* Pure Red */
+  color: white; 
   height: var(--header-height);
   position: fixed;
   top: 0;
@@ -95,9 +123,8 @@ header {
   z-index: 100;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  border-bottom: 2px solid var(--primary-color);
+  justify-content: space-between;  
+  
 }
 
 .header-content {
@@ -164,7 +191,7 @@ header {
   border-radius: 3px;
 }
 
-/* Main Content Styles */
+/* Main Content Styles - Modified Content Container */
 .page-content {
   margin-top: var(--header-height);
   padding-top: 20px;
@@ -262,9 +289,8 @@ button {
 }
 
 button:hover {
-  background-color: var(--primary-dark);
   transform: scale(1.05);
-}
+} 
 
 .secondary-btn {
   background-color: transparent;
@@ -280,11 +306,6 @@ button:hover {
 .standard-btn {
   background-color: var(--primary-color);
 }
-
-.standard-btn:hover {
-  background-color: var(--primary-dark);
-}
-
 .remove-btn {
   background-color: var(--secondary-color);
   width: auto;
@@ -293,16 +314,16 @@ button:hover {
 }
 
 .remove-btn:hover {
-  background-color: #b71c1c;
+  background-color: var(--secondary-color);
 }
 
-/* Ad Section Styles */
+/* Ad Section Styles */ 
 .ad-section {
   background-color: var(--content-color);
   padding: 20px;
   border-radius: 4px;
   border: 2px solid var(--light-border);
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--card-shadow); 
   margin-bottom: 20px;
   text-align: center;
   position: relative;
@@ -327,6 +348,21 @@ button:hover {
   border: 1px solid #ddd;
   position: relative;
   z-index: 1;
+}
+.left-margin-ads-container, .right-margin-ads-container {
+  display: none;
+  width: 300px;
+  height: 300px;
+}
+@media (min-width: 768px) {
+    .left-margin-ads-container, .right-margin-ads-container {
+        display: block;
+        align-self: flex-start;
+        top: 1em;
+        bottom: 1em;
+        margin: auto 0;
+    }
+
 }
 
 /* Output Section Styles */
@@ -372,16 +408,16 @@ th {
   color: var(--text-color);
 }
 
-/* Footer Styles */
+/* Footer Styles - Modified to be Pure Blue */
 footer {
-  background-color: var(--dark-accent);
+  background-color: #0000FF; /* Pure Blue */
   color: white;
   height: var(--footer-height);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 30px;
-  border-top: 2px solid var(--primary-color);
+  margin-top: 30px;  
+
 }
 
 .footer-content {
@@ -438,14 +474,21 @@ footer {
   }
   
   .mobile-menu {
-    position: fixed;
+    position: absolute;
     top: var(--header-height);
     left: 0;
-    right: 0;
-    background-color: var(--dark-accent);
-    padding: 20px;
+    width: 100%;
+    padding: 0;
     display: flex;
     flex-direction: column;
+    align-items: stretch; /* stretch to full width */
+    background-color: transparent; /* removes the old gray background */
+    right:0;
+    
+  }
+  .mobile-menu .nav-link{
+    padding: 1em;
+    background-color: #424242; /* Dark Gray */
     align-items: center;
   }
   
@@ -453,6 +496,7 @@ footer {
     margin: 10px 0;
     color: white;
     font-size: var(--body-text);
+    width: 100%;
   }
   
   .chip-row {
