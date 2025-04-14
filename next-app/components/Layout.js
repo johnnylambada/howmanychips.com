@@ -16,7 +16,7 @@ export default function Layout({
         <link rel="icon" href="/poker-chips.svg" />
       </Head>
       <div className="d-flex flex-column min-vh-100">
-        <header className="sticky-top bg-danger">
+        <header className="sticky-top">
           <Header />
         </header>
         <div className="content-container flex-grow-1 bg-success d-flex justify-content-center">
