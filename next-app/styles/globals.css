@@ -14,7 +14,7 @@
   
   /* Sizing */
   --header-height: 80px;
-  --footer-height: 80px;
+  --footer-height: 110px; /* Increased to accommodate ad + padding */
   --content-width: 1200px;
   --button-width: 200px;
   --button-height: 40px;
@@ -396,42 +396,54 @@ th {
   color: var(--text-color);
 }
 
-/* Footer Styles - Modified to be Pure Blue */
+/* Footer Ad Styles */
 footer {
-  background-color: #0000FF; /* Pure Blue */
-  color: white;
-  height: var(--footer-height);
+  background-color: #18622D; /* Match header color */
+  min-height: var(--footer-height);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 30px;  
-
+  margin-top: 0;
+  padding: 10px 0;
 }
 
-.footer-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.footer-ad-container {
   width: 100%;
   max-width: var(--content-width);
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.footer-content p {
+.footer-ad-placeholder {
+  background-color: #f0f0f0;
+  width: 100%;
+  height: 90px; /* Standard AdSense banner height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  margin: 10px 0;
+}
+
+.footer-ad-placeholder p {
+  color: #757575;
   font-size: var(--small-text);
 }
 
-.footer-links {
-  margin: 0 5px;
+/* Responsive footer ad sizes */
+@media (min-width: 769px) {
+  .footer-ad-placeholder {
+    width: 728px; /* Leaderboard ad size for desktop */
+    height: 90px;
+  }
 }
 
-.footer-logo {
-  margin-left: 15px;
-}
-
-.footer-logo img {
-  width: 25px;
-  height: 25px;
+@media (max-width: 768px) {
+  .footer-ad-placeholder {
+    width: 100%; /* Full width on mobile */
+    height: 90px;
+  }
 }
 
 /* Responsive Styles */

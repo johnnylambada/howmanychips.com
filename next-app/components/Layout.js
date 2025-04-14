@@ -21,16 +21,14 @@ export default function Layout({
         </header>
         <div className="content-container flex-grow-1 bg-success d-flex justify-content-center">
           <div className="article-container">
-            <article className="bg-white mt-3 mb-3 p-3">
+            <article className="bg-white mt-3 mb-0 p-3">
               <main>
                 <div className="content-area">{children}</div>
               </main>
             </article>          
           </div>
         </div>
-        <footer className="sticky-bottom bg-primary">
-          <Footer />
-        </footer>
+        <Footer />
       </div>
     </>
   );
