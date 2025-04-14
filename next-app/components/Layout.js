@@ -20,7 +20,7 @@ export default function Layout({
           <Header />
         </header>
         <div className="content-container flex-grow-1 bg-success d-flex justify-content-center">
-          <div className="article-container" style={{width: '800px'}}>
+          <div className="article-container">
             <article className="bg-white mt-3 mb-3 p-3">
               <main>
                 <div className="content-area">{children}</div>
