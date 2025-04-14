@@ -2,11 +2,10 @@
 
 :root {
   /* Color Palette */
-  --primary-color: #2E7D32; /* Green - Buttons, accents */
-  --primary-dark: #1B5E20; /* Darker green for hover */
+  --primary-color: #424242; /* Buttons, accents */
   --secondary-color: #D32F2F; /* Red - Hover effects, secondary actions */
   --background-color: #F5F5F5; /* Light Gray + felt texture */
-  --dark-accent: #424242; /* Dark Gray - Header/footer */
+  --dark-accent: #424242; /* Dark Gray */
   --content-color: #FFFFFF; /* White - Cards and content areas */
   --text-color: #212121; /* Black - Body text */
   --light-border: #E0E0E0; /* Light gray for borders */
@@ -15,7 +14,7 @@
   
   /* Sizing */
   --header-height: 80px;
-  --footer-height: 80px;
+  --footer-height: 110px; /* Increased to accommodate ad + padding */
   --content-width: 1200px;
   --button-width: 200px;
   --button-height: 40px;
@@ -44,6 +43,10 @@ body {
   background-repeat: repeat;
   color: var(--text-color);
   line-height: 1.6;
+}
+
+.sticky-bottom{
+  height: 120px;
 }
 
 a {
@@ -76,6 +79,34 @@ main {
   flex: 1;
 }
 
+.sticky-top{
+  background-color: #18622D;
+}
+/* Content Container - Pure Green */
+.content-container {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='felt'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0.6 0 0 0 0 0 0 0 0 0 0 0 0.3 0'/%3E%3CfeBlend mode='multiply' in2='SourceGraphic'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%231e7b3a' filter='url(%23felt)'/%3E%3C/svg%3E");
+
+}
+footer{
+  height: 120px;
+}
+/* Article Styles */
+.article-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  width: 100%; /* Take full width on mobile */
+  margin: 0; /* No margin on mobile */
+}
+
+article {
+  background-color: white;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 1em;
+}
+
 .sidebar {
   flex: 0 0 340px;
   min-width: 340px;
@@ -83,10 +114,10 @@ main {
   visibility: visible !important;
 }
 
-/* Header Styles */
+/* Header Styles - Modified to be Pure Red */
 header {
-  background-color: var(--dark-accent);
-  color: white;
+  background-color: #18622D;
+  color: white; 
   height: var(--header-height);
   position: fixed;
   top: 0;
@@ -95,9 +126,8 @@ header {
   z-index: 100;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  border-bottom: 2px solid var(--primary-color);
+  justify-content: space-between;  
+  
 }
 
 .header-content {
@@ -164,7 +194,7 @@ header {
   border-radius: 3px;
 }
 
-/* Main Content Styles */
+/* Main Content Styles - Modified Content Container */
 .page-content {
   margin-top: var(--header-height);
   padding-top: 20px;
@@ -262,9 +292,8 @@ button {
 }
 
 button:hover {
-  background-color: var(--primary-dark);
   transform: scale(1.05);
-}
+} 
 
 .secondary-btn {
   background-color: transparent;
@@ -280,11 +309,6 @@ button:hover {
 .standard-btn {
   background-color: var(--primary-color);
 }
-
-.standard-btn:hover {
-  background-color: var(--primary-dark);
-}
-
 .remove-btn {
   background-color: var(--secondary-color);
   width: auto;
@@ -293,16 +317,16 @@ button:hover {
 }
 
 .remove-btn:hover {
-  background-color: #b71c1c;
+  background-color: var(--secondary-color);
 }
 
-/* Ad Section Styles */
+/* Ad Section Styles */ 
 .ad-section {
   background-color: var(--content-color);
   padding: 20px;
   border-radius: 4px;
   border: 2px solid var(--light-border);
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--card-shadow); 
   margin-bottom: 20px;
   text-align: center;
   position: relative;
@@ -372,50 +396,67 @@ th {
   color: var(--text-color);
 }
 
-/* Footer Styles */
+/* Footer Ad Styles */
 footer {
-  background-color: var(--dark-accent);
-  color: white;
-  height: var(--footer-height);
+  background-color: #18622D; /* Match header color */
+  min-height: var(--footer-height);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 30px;
-  border-top: 2px solid var(--primary-color);
+  margin-top: 0;
+  padding: 10px 0;
 }
 
-.footer-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.footer-ad-container {
   width: 100%;
   max-width: var(--content-width);
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.footer-content p {
+.footer-ad-placeholder {
+  background-color: #f0f0f0;
+  width: 100%;
+  height: 90px; /* Standard AdSense banner height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  margin: 10px 0;
+}
+
+.footer-ad-placeholder p {
+  color: #757575;
   font-size: var(--small-text);
 }
 
-.footer-links {
-  margin: 0 5px;
+/* Responsive footer ad sizes */
+@media (min-width: 769px) {
+  .footer-ad-placeholder {
+    width: 728px; /* Leaderboard ad size for desktop */
+    height: 90px;
+  }
 }
 
-.footer-logo {
-  margin-left: 15px;
-}
-
-.footer-logo img {
-  width: 25px;
-  height: 25px;
+@media (max-width: 768px) {
+  .footer-ad-placeholder {
+    width: 100%; /* Full width on mobile */
+    height: 90px;
+  }
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   main {
     flex-direction: column;
   }
   
+  .article-container {
+    width: 80%;
+    margin: 0 auto; /* Center the container */
+  }
+
   .content-area {
     max-width: 100%;
     margin-bottom: 20px;
@@ -438,33 +479,45 @@ footer {
   }
   
   .mobile-menu {
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
-    right: 0;
-    background-color: var(--dark-accent);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background-color: #424242; /* Dark Gray */
+    width: 100%;
+    display: flex; /* Use flexbox for column layout */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: flex-start; /* Align items to the start */
+    align-items: stretch; /* Make items stretch horizontally */
+    position: absolute; /* Remove from normal flow */
+    top: var(--header-height); /* Position below the header */
+    left: 0; /* Start from the left edge */
+    z-index: 101; /* Ensure it's above other content */
   }
   
-  .mobile-menu a {
-    margin: 10px 0;
-    color: white;
-    font-size: var(--body-text);
+  .mobile-menu .nav-link {
+    color: #FFFFFF; /* White */
+    padding: 1rem;
+    width: 100%;
+    text-align: left;
   }
   
+  .mobile-menu .nav-link:not(:last-child) {
+    border-bottom: 1px solid #666; /* Add a separator between items */
+  }
+
+  .mobile-menu a:hover{
+    text-decoration: none;
+  }
+
+
+  /* Common input and button styles for mobile */
   .chip-row {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .input-group label {
     width: 100%;
     margin-bottom: 5px;
   }
-  
+
   .input-group input,
   .input-group select {
     width: 100%;

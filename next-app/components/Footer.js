@@ -1,25 +1,37 @@
-import Link from 'next/link';
+import { useEffect } from 'react';
+import Head from 'next/head';
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-  
+  useEffect(() => {
+    // Initialize AdSense ads after component mounts
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error('AdSense error:', e);
+    }
+  }, []);
+
   return (
-    <footer>
-      <div className="footer-content">
-        <p>
-          &copy; {currentYear} HowManyChips.com | 
-          <span className="footer-links">
-            <Link href="/" legacyBehavior><a>Home</a></Link> | 
-            <Link href="/calculator" legacyBehavior><a>Chip Calculator</a></Link> | 
-            <Link href="/blind-structure" legacyBehavior><a>Blind Structure</a></Link> | 
-            <Link href="/payout-calculator" legacyBehavior><a>Payout Calculator</a></Link> | 
-            <Link href="/about" legacyBehavior><a>About</a></Link>
-          </span>
-        </p>
-        <div className="footer-logo">
-          <img src="/poker-chips.svg" alt="Poker Chips" width={25} height={25} />
+    <>
+      <Head>
+        {/* AdSense script in Head */}
+        <script 
+          async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2535381193236595"
+          crossOrigin="anonymous"
+        />
+      </Head>
+      <footer>
+        <div className="footer-ad-container">
+          <ins className="adsbygoogle"
+            style={{ display: 'block' }}
+            data-ad-client="ca-pub-2535381193236595"
+            data-ad-slot="3940256099" 
+            data-ad-format="auto"
+            data-full-width-responsive="true">
+          </ins>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 }
