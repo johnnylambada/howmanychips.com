@@ -19,23 +19,13 @@ export default function Layout({
         <header className="sticky-top bg-danger">
           <Header />
         </header>
-        <div className="content-container flex-grow-1 bg-success d-flex">
-          <div className="left-margin-ads-container">
-            <div className="left-margin-ad">
-              <p>left ad</p>
-            </div>
-          </div>
-          <div className="article-container">
+        <div className="content-container flex-grow-1 bg-success d-flex justify-content-center">
+          <div className="article-container" style={{width: '800px'}}>
             <article className="bg-white mt-3 mb-3 p-3">
               <main>
                 <div className="content-area">{children}</div>
               </main>
-            </article>
-          </div>
-          <div className="right-margin-ads-container">
-            <div className="right-margin-ad">
-              <p>right ad</p>
-            </div>
+            </article>          
           </div>
         </div>
         <footer className="sticky-bottom bg-primary">
